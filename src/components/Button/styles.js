@@ -7,18 +7,14 @@ export const StyledButton = styled.TouchableOpacity `
     textAlign: center;
     width: 100;
     height: 50;
-    backgroundColor: #6BE06B;
+    backgroundColor: #61BB5A;
     borderRadius:10;
+    marginTop: 5;
 `
 
 export const StyledText = styled.Text `
     fontWeight: bold;
     fontSize: 15;
+    textAlign: center;
     color: #FFF;
-`
-
-export const StyledTextInput = styled.TextInput `
-    width: 100;
-    height: 40;
-    backgroundColor: #FFF;
 `
