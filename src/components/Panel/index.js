@@ -6,7 +6,7 @@ export default function Panel(props) {
     <Container>
         <TitleStyle>{props.title.toUpperCase()}</TitleStyle>
         <PanelStyle>
-        {props.children}
+          {props.children}
         </PanelStyle>
     </Container>
   );

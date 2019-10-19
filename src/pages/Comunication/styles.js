@@ -46,3 +46,15 @@ export const ImageStyle = styled.Image `
     height: 140;
     marginBottom: 45;
 `
+
+export const PanelText = styled.Text `
+    fontSize: 15;
+    color: 333;
+    paddingTop: 5;
+    paddingLeft: 5;
+`
+
+export const WifiBlock = styled.View `
+    marginTop: 5;
+    flexDirection: row-reverse;
+`
