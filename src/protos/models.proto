@@ -4,7 +4,7 @@ syntax = "proto3";
 package model;
 
 message TemperatureSensor {
-    optional string temperature = 1;
-    optional string name = 2;
-    optional string topic = 3;
+    string temperature = 1;
+    string name = 2;
+    string topic = 3;
 }
