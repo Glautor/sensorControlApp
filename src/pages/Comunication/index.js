@@ -23,22 +23,29 @@ import { Container,
 export default function Comunication() {
   const [ledVerde, setLedVerde] = useState('#F9FAFB');
   const [ledVermelho, setLedVermelho] = useState('#F9FAFB');
-  const [temperature, setTemperature] = useState(12);
+  const [temperature, setTemperature] = useState('0ºC');
   const [connected, setConnected] = useState(false);
   const [connectedColor, setConnectedColor] = useState('#F78080');
 
   useEffect(() => {
-    setTimeout(() => {
-      handlePanelRequest();
-    }, 5000);
+    event = () => {
+      setTimeout(() => {
+        handlePanelRequest();
+        event();
+      }, 5000);
+    }
+    event();
   }, [temperature]);
 
-  handlePanelRequest = () => { 
-    if(temperature < 60)
-      setTemperature(temperature + 10);
-    else {
-      setTemperature(12);
-    }
+  handlePanelRequest = () => {
+    api.post('/getTemperature', {})
+    .then((response) => {
+      setTemperature(response.data);
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   }
 
   sendCommand = (text) => {
@@ -50,7 +57,7 @@ export default function Comunication() {
         handleALert('Problema de conexão', 'Verifique se a conexão foi bem sucedida');
       }
     } catch(error) {
-      console.log(error);
+      handleALert('Erro no servidor', 'O servidor apresentou anomalias');
     }
   }
 
@@ -70,10 +77,10 @@ export default function Comunication() {
       message: text
     })
     .then((response) => {
+      if (response.data != 'success') throw new Error('server error');
       console.log(response);
     })
     .catch((error) => {
-      // handleALert('Problema de conexão', 'Verifique se a conexão foi bem sucedida');
       console.log(error);
     });
   }
@@ -81,18 +88,22 @@ export default function Comunication() {
   handleStartConnection = () => {
     api.post('/startConnection', {})
     .then((response) => {
-      if(response == 'success'){
-        setConnected(true);
-        setConnectedColor('#9BD08E');
-      } else {
-        setConnected(true);
-        setConnectedColor('#9BD08E');
-      }
-      console.log(response);
+      handleWifiStatus(response.data);
     })
     .catch((error) => {
       console.log(error);
     });
+  }
+
+  handleWifiStatus = (status) => {
+    if(status == 'success'){
+      setConnected(true);
+      setConnectedColor('#9BD08E');
+    } else {
+      setConnected(false);
+      setConnectedColor('#F78080');
+      handleALert('Erro no servidor', 'O servidor retornou uma resposta diferente da esperada');
+    }
   }
 
   handleLedColors = (text) => {
@@ -139,7 +150,7 @@ export default function Comunication() {
           </TopBlock>
           <BottomBlock>
             <Panel title={'Temperatura'}>
-              <PanelText>{temperature}º C</PanelText>
+              <PanelText>{temperature}</PanelText>
             </Panel>
             <Panel title={'Umidade'}>
               <PanelText>10</PanelText>
