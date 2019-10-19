@@ -7,6 +7,7 @@ import Button from '../../components/Button';
 import Led from '../../components/Led';
 import Panel from '../../components/Panel';
 import ButtonConnection from '../../components/ButtonConnection';
+import ButtonSound from '../../components/ButtonSound';
 
 import ufcLogo from '../../../assets/ufc-logo.png'
 
@@ -23,21 +24,34 @@ import { Container,
 export default function Comunication() {
   const [ledVerde, setLedVerde] = useState('#F9FAFB');
   const [ledVermelho, setLedVermelho] = useState('#F9FAFB');
-  const [temperature, setTemperature] = useState('0ºC');
+  const [temperature, setTemperature] = useState('');
+  const [humidity, setHumidity] = useState('');
   const [connected, setConnected] = useState(false);
   const [connectedColor, setConnectedColor] = useState('#F78080');
+  const [soundStatusColor, setSoundStatusColor] = useState('#F78080');
+  const [togleSound, setTogleSound] = useState(false);
 
   useEffect(() => {
     event = () => {
       setTimeout(() => {
-        handlePanelRequest();
+        handlePanelTempRequest();
         event();
       }, 5000);
     }
     event();
   }, [temperature]);
 
-  handlePanelRequest = () => {
+  useEffect(() => {
+    event = () => {
+      setTimeout(() => {
+        handlePanelHumidityRequest();
+        event();
+      }, 5000);
+    }
+    event();
+  }, [humidity]);
+
+  handlePanelTempRequest = () => {
     api.post('/getTemperature', {})
     .then((response) => {
       setTemperature(response.data);
@@ -48,10 +62,21 @@ export default function Comunication() {
     });
   }
 
+  handlePanelHumidityRequest = () => {
+    api.post('/getHumidity', {})
+    .then((response) => {
+      setHumidity(response.data);
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+
   sendCommand = (text) => {
     try {
       if(connected){
-        handleLedButtonRequest(text);
+        handleButtonRequest(text);
         handleLedColors(text);
       } else {
         handleALert('Problema de conexão', 'Verifique se a conexão foi bem sucedida');
@@ -72,7 +97,7 @@ export default function Comunication() {
     );
   }
 
-  handleLedButtonRequest = (text) => {
+  handleButtonRequest = (text) => {
     api.post('/sendMessage', {
       message: text
     })
@@ -106,6 +131,25 @@ export default function Comunication() {
     }
   }
 
+  handleTogleSound = () => {
+    setTogleSound(!togleSound);
+    try {
+      if(connected){
+        if(togleSound) {
+          handleButtonRequest('turnIn');
+          handleLedColors('turnIn');
+        } else {
+          handleButtonRequest('turnOff');
+          handleLedColors('turnOff');
+        }
+      } else {
+        handleALert('Problema de conexão', 'Verifique se a conexão foi bem sucedida');
+      }
+    } catch(error) {
+      handleALert('Erro no servidor', 'O servidor apresentou anomalias');
+    }
+  }
+
   handleLedColors = (text) => {
     switch(text) {
       case 'LR':
@@ -127,6 +171,12 @@ export default function Comunication() {
       case 'DA':
           setLedVerde('#F9FAFB');
           setLedVermelho('#F9FAFB');
+          break;
+      case 'turnIn':
+          setSoundStatusColor('#6F5');
+          break;
+      case 'turnOff':
+          setSoundStatusColor('#F78080');
           break;
     }
   }
@@ -153,10 +203,11 @@ export default function Comunication() {
               <PanelText>{temperature}</PanelText>
             </Panel>
             <Panel title={'Umidade'}>
-              <PanelText>10</PanelText>
+              <PanelText>{humidity}</PanelText>
             </Panel>
             <WifiBlock>
               <ButtonConnection backColor={connectedColor} pressButton={() => handleStartConnection()}/>
+              <ButtonSound backColor={soundStatusColor} pressButton={() => handleTogleSound()}/>
             </WifiBlock>
           </BottomBlock>
         </RightBlock>
