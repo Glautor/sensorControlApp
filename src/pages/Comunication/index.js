@@ -31,25 +31,21 @@ export default function Comunication() {
   const [soundStatusColor, setSoundStatusColor] = useState('#F78080');
   const [togleSound, setTogleSound] = useState(false);
 
-  useEffect(() => {
-    event = () => {
-      setTimeout(() => {
-        handlePanelTempRequest();
-        event();
-      }, 5000);
-    }
-    event();
-  }, [temperature]);
+  eventTemp = () => {
+    setTimeout(() => {
+      if(connected) handlePanelTempRequest();
+      eventTemp();
+    }, 5000);
+  }
+  eventTemp();
 
-  useEffect(() => {
-    event = () => {
-      setTimeout(() => {
-        handlePanelHumidityRequest();
-        event();
-      }, 5000);
-    }
-    event();
-  }, [humidity]);
+  eventHumidity = () => {
+    setTimeout(() => {
+      if(connected) handlePanelHumidityRequest();
+      eventHumidity();
+    }, 5000);
+  }
+  eventHumidity();
 
   handlePanelTempRequest = () => {
     api.post('/getTemperature', {})
