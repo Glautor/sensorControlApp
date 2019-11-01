@@ -51,7 +51,6 @@ export default function Comunication() {
     api.post('/getTemperature', {})
     .then((response) => {
       setTemperature(response.data);
-      console.log(response);
     })
     .catch((error) => {
       console.log(error);
@@ -62,7 +61,6 @@ export default function Comunication() {
     api.post('/getHumidity', {})
     .then((response) => {
       setHumidity(response.data);
-      console.log(response);
     })
     .catch((error) => {
       console.log(error);
@@ -99,7 +97,6 @@ export default function Comunication() {
     })
     .then((response) => {
       if (response.data != 'success') throw new Error('server error');
-      console.log(response);
     })
     .catch((error) => {
       console.log(error);
