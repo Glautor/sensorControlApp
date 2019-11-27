@@ -11,4 +11,4 @@ https://github.com/Glautor/MqttHttpServer
 
 ## Imagem
 
-![Alt text](assets/print_app.jpg?raw=true "Print do App")
+![Alt text](assets/print_app.jpg=250x?raw=true "Print do App")
