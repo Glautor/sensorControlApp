@@ -11,4 +11,4 @@ https://github.com/Glautor/MqttHttpServer
 
 ## Imagem
 
-<img src="assets/print_app.jpg?raw=true" alt="drawing" width="100"/>
+<img src="assets/print_app.jpg?raw=true" alt="drawing" width="250"/>
