@@ -12,3 +12,10 @@ https://github.com/Glautor/MqttHttpServer
 ## Imagem
 
 <img src="assets/print_app.jpg?raw=true" alt="drawing" width="250"/>
+
+## Iniciando aplicativo
+Foi utilizado expo para o desenvolvimento do app, então basta colocar o seguinte comando no terminal
+
+`expo start`
+
+Após isso, o expo vai abrir uma página no seu navegador padrão e será disponibilizado um qr code, escaneie esse qr code pelo aplicativo no expo que deve estar instalado no seu celular e o aplicativo será inicializado
