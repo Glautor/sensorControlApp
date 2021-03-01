@@ -14,9 +14,11 @@ https://github.com/Glautor/MqttHttpServer
 <img src="assets/print_app.jpg?raw=true" alt="drawing" width="250"/>
 
 ## Iniciando aplicativo
-Foi utilizado expo para o desenvolvimento do app, então basta colocar o seguinte comando no terminal
+Foi utilizado expo para o desenvolvimento do app
 
 ```bash
+  # Instalar dependências:
+  $ npm install
   # Inicializar aplicação com expo:
   $ expo start
 ```
